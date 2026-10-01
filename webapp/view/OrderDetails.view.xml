@@ -6,7 +6,9 @@
 
     <Page
         id="orderDetailsPage"
-        title="Order Details"
+        title="{i18n>orderDetails}"
+        busy="{view>/busy}"
+        busyIndicatorDelay="0"
         showNavButton="true"
         navButtonPress=".onNavBack">
 
@@ -15,21 +17,41 @@
                 class="sapUiContentPadding"
                 width="100%">
 
+                <MessageStrip
+                    text="{i18n>mockDataWarning}"
+                    type="Warning"
+                    showIcon="true"
+                    visible="{view>/usingMock}"
+                    class="sapUiSmallMarginBottom" />
+
                 <ObjectHeader
-                    title="{orderId}"
-                    intro="{customer}"
-                    number="{amount}"
-                    numberUnit="{currency}">
+                    title="{orders>OrderID}"
+                    intro="{orders>CustomerName}"
+                    number="{
+                        parts: [
+                            { path: 'orders>Amount', type: 'sap.ui.model.odata.type.Decimal' },
+                            { path: 'orders>CurrencyCode' }
+                        ],
+                        type: 'sap.ui.model.type.Currency',
+                        formatOptions: {
+                            showMeasure: false,
+                            currencyCode: false
+                        }
+                    }"
+                    numberUnit="{orders>CurrencyCode}">
 
                     <statuses>
                         <ObjectStatus
-                            text="{status}"
-                            state="{statusState}" />
+                            text="{orders>OrderStatus}"
+                            state="{
+                                path: 'orders>OrderStatus',
+                                formatter: '.formatter.orderStatusState'
+                            }" />
                     </statuses>
                 </ObjectHeader>
 
                 <Panel
-                    headerText="Order Information"
+                    headerText="{i18n>orderInformation}"
                     class="sapUiResponsiveMargin"
                     width="auto">
 
@@ -50,31 +72,37 @@
                         columnsM="1"
                         singleContainerFullSize="false">
 
-                        <Label text="Order ID" />
-                        <Text text="{orderId}" />
+                        <Label text="{i18n>orderId}" />
+                        <Text text="{orders>OrderID}" />
 
-                        <Label text="Customer" />
-                        <Text text="{customer}" />
+                        <Label text="{i18n>customer}" />
+                        <Text text="{orders>CustomerName}" />
 
-                        <Label text="Status" />
+                        <Label text="{i18n>status}" />
                         <ObjectStatus
-                            text="{status}"
-                            state="{statusState}" />
+                            text="{orders>OrderStatus}"
+                            state="{
+                                path: 'orders>OrderStatus',
+                                formatter: '.formatter.orderStatusState'
+                            }" />
 
-                        <Label text="Amount" />
+                        <Label text="{i18n>amount}" />
                         <ObjectNumber
-                            number="{amount}"
-                            unit="{currency}" />
+                            number="{
+                                parts: [
+                                    { path: 'orders>Amount', type: 'sap.ui.model.odata.type.Decimal' },
+                                    { path: 'orders>CurrencyCode' }
+                                ],
+                                type: 'sap.ui.model.type.Currency',
+                                formatOptions: {
+                                    showMeasure: false,
+                                    currencyCode: false
+                                }
+                            }"
+                            unit="{orders>CurrencyCode}" />
 
                     </f:SimpleForm>
                 </Panel>
-
-                <MessageStrip
-                    text="This order currently uses mock data. We will connect it to the SAP RAP backend later."
-                    type="Information"
-                    showIcon="true"
-                    class="sapUiMediumMarginTop" />
-
             </VBox>
         </content>
     </Page>

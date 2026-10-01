@@ -47,7 +47,9 @@
       "minUI5Version": "1.153.0",
       "libs": {
         "sap.m": {},
-        "sap.ui.core": {}
+        "sap.f": {},
+        "sap.ui.core": {},
+        "sap.ui.layout": {}
       }
     },
     "contentDensities": {
@@ -99,7 +101,7 @@
         },
         {
           "name": "RouteOrderDetails",
-          "pattern": "orders/{orderId}",
+          "pattern": "orders/{orderUUID}",
           "target": ["TargetOrderDetails"]
         }
       ],

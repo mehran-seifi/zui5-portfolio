@@ -5,6 +5,7 @@ QUnit.module("Main Controller");
 
 QUnit.test("I should test the Main controller", function (assert: Assert) {
 	const oAppController = new Controller("Main");
-	oAppController.onInit();
 	assert.ok(oAppController);
+	oAppController.onInit();
+	assert.ok(true, "Main controller initializes without a view");
 });

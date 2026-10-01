@@ -8,6 +8,8 @@
 
     <f:DynamicPage
         id="portfolioPage"
+        busy="{dashboard>/busy}"
+        busyIndicatorDelay="0"
         headerExpanded="true"
         toggleHeaderOnTitleClick="false">
 
@@ -15,17 +17,18 @@
             <f:DynamicPageTitle>
                 <f:heading>
                     <Title
-                        text="Portfolio Dashboard"
+                        text="{i18n>dashboardTitle}"
                         level="H1" />
                 </f:heading>
 
                 <f:expandedContent>
-                    <Text text="SAPUI5 · SAP Fiori · ABAP Cloud" />
+                    <Text text="{i18n>dashboardSubtitle}" />
                 </f:expandedContent>
 
                 <f:actions>
                     <Button
-                        text="Refresh"
+                        id="refreshButton"
+                        text="{i18n>refresh}"
                         icon="sap-icon://refresh"
                         type="Transparent"
                         press=".onRefresh" />
@@ -37,11 +40,10 @@
             <f:DynamicPageHeader>
                 <VBox>
                     <Title
-                        text="Welcome to the Portfolio"
+                        text="{i18n>welcomeTitle}"
                         level="H2" />
 
-                    <Text
-                        text="A modern SAPUI5 application designed for enterprise workflows." />
+                    <Text text="{i18n>welcomeText}" />
                 </VBox>
             </f:DynamicPageHeader>
         </f:header>
@@ -51,8 +53,29 @@
                 class="sapUiContentPadding"
                 width="100%">
 
+                <MessageStrip
+                    text="{i18n>mockDataWarning}"
+                    type="Warning"
+                    showIcon="true"
+                    visible="{dashboard>/usingMock}"
+                    class="sapUiSmallMarginBottom" />
+
+                <MessageStrip
+                    text="{dashboard>/errorMessage}"
+                    type="Error"
+                    showIcon="true"
+                    showCloseButton="false"
+                    visible="{dashboard>/hasError}"
+                    class="sapUiSmallMarginBottom">
+                    <link>
+                        <Link
+                            text="{i18n>retry}"
+                            press=".onRetry" />
+                    </link>
+                </MessageStrip>
+
                 <Title
-                    text="Overview"
+                    text="{i18n>overview}"
                     level="H2"
                     class="sapUiSmallMarginBottom" />
 
@@ -66,8 +89,8 @@
                         width="15rem">
 
                         <GenericTile
-                            header="Total Orders"
-                            subheader="All orders">
+                            header="{i18n>totalOrders}"
+                            subheader="{i18n>allOrders}">
 
                             <TileContent>
                                 <NumericContent
@@ -83,8 +106,8 @@
                         width="15rem">
 
                         <GenericTile
-                            header="Open Orders"
-                            subheader="Awaiting completion">
+                            header="{i18n>openOrders}"
+                            subheader="{i18n>awaitingCompletion}">
 
                             <TileContent>
                                 <NumericContent
@@ -100,8 +123,8 @@
                         width="15rem">
 
                         <GenericTile
-                            header="Completed Orders"
-                            subheader="Successfully completed">
+                            header="{i18n>completedOrders}"
+                            subheader="{i18n>successfullyCompleted}">
 
                             <TileContent>
                                 <NumericContent
@@ -114,21 +137,35 @@
                 </HBox>
 
                 <Title
-                    text="Recent Orders"
+                    text="{i18n>recentOrders}"
                     level="H2"
                     class="sapUiSmallMarginBottom" />
 
                 <Table
                     id="ordersTable"
-                    items="{orders>/items}"
                     growing="true"
                     growingThreshold="10"
-                    noDataText="No orders available">
+                    noDataText="{i18n>noOrders}"
+                    items="{
+                        path: 'orders>/ZI_UI5_ORDER',
+                        parameters: {
+                            $count: true,
+                            $select: 'OrderUUID,OrderID,CustomerName,OrderStatus,Amount,CurrencyCode'
+                        },
+                        sorter: {
+                            path: 'OrderID',
+                            descending: false
+                        },
+                        events: {
+                            dataRequested: '.onOrdersRequested',
+                            dataReceived: '.onOrdersReceived'
+                        }
+                    }">
 
                     <headerToolbar>
                         <OverflowToolbar>
                             <Title
-                                text="Orders"
+                                text="{i18n>orders}"
                                 level="H3" />
 
                             <ToolbarSpacer />
@@ -141,38 +178,38 @@
 
                                 <core:Item
                                     key="All"
-                                    text="All Statuses" />
+                                    text="{i18n>allStatuses}" />
 
                                 <core:Item
                                     key="Open"
-                                    text="Open" />
+                                    text="{i18n>statusOpen}" />
 
                                 <core:Item
                                     key="In Progress"
-                                    text="In Progress" />
+                                    text="{i18n>statusInProgress}" />
 
                                 <core:Item
                                     key="Completed"
-                                    text="Completed" />
+                                    text="{i18n>statusCompleted}" />
                             </Select>
 
                             <Select
                                 id="ordersSortField"
                                 width="11rem"
-                                selectedKey="orderId"
+                                selectedKey="OrderID"
                                 change=".onSortChange">
 
                                 <core:Item
-                                    key="orderId"
-                                    text="Order ID" />
+                                    key="OrderID"
+                                    text="{i18n>orderId}" />
 
                                 <core:Item
-                                    key="customer"
-                                    text="Customer" />
+                                    key="CustomerName"
+                                    text="{i18n>customer}" />
 
                                 <core:Item
-                                    key="amount"
-                                    text="Amount" />
+                                    key="Amount"
+                                    text="{i18n>amount}" />
                             </Select>
 
                             <Select
@@ -183,66 +220,70 @@
 
                                 <core:Item
                                     key="asc"
-                                    text="Ascending" />
+                                    text="{i18n>ascending}" />
 
                                 <core:Item
                                     key="desc"
-                                    text="Descending" />
+                                    text="{i18n>descending}" />
                             </Select>
 
                             <SearchField
                                 id="ordersSearchField"
                                 width="15rem"
-                                placeholder="Search orders"
+                                placeholder="{i18n>searchOrders}"
                                 liveChange=".onSearch" />
                         </OverflowToolbar>
                     </headerToolbar>
 
                     <columns>
                         <Column>
-                            <Text text="Order ID" />
+                            <Text text="{i18n>orderId}" />
                         </Column>
 
                         <Column>
-                            <Text text="Customer" />
+                            <Text text="{i18n>customer}" />
                         </Column>
 
                         <Column>
-                            <Text text="Status" />
+                            <Text text="{i18n>status}" />
                         </Column>
 
                         <Column hAlign="End">
-                            <Text text="Amount" />
+                            <Text text="{i18n>amount}" />
                         </Column>
                     </columns>
 
                     <items>
                         <ColumnListItem
-    type="Navigation"
-    press=".onOrderPress">
+                            type="Navigation"
+                            press=".onOrderPress">
                             <cells>
                                 <ObjectIdentifier
-                                    title="{orders>orderId}" />
+                                    title="{orders>OrderID}" />
 
                                 <Text
-                                    text="{orders>customer}" />
+                                    text="{orders>CustomerName}" />
 
                                 <ObjectStatus
-                                    text="{orders>status}"
-                                    state="{orders>statusState}" />
+                                    text="{orders>OrderStatus}"
+                                    state="{
+                                        path: 'orders>OrderStatus',
+                                        formatter: '.formatter.orderStatusState'
+                                    }" />
 
                                 <ObjectNumber
                                     number="{
                                         parts: [
-                                            { path: 'orders>amount' },
-                                            { path: 'orders>currency' }
+                                            { path: 'orders>Amount', type: 'sap.ui.model.odata.type.Decimal' },
+                                            { path: 'orders>CurrencyCode' }
                                         ],
                                         type: 'sap.ui.model.type.Currency',
                                         formatOptions: {
-                                            showMeasure: false
+                                            showMeasure: false,
+                                            currencyCode: false
                                         }
                                     }"
-                                    unit="{orders>currency}" />
+                                    unit="{orders>CurrencyCode}" />
                             </cells>
                         </ColumnListItem>
                     </items>

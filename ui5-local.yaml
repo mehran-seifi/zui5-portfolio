@@ -12,7 +12,9 @@ framework:
   version: 1.153.0
   libraries:
     - name: sap.m
+    - name: sap.f
     - name: sap.ui.core
+    - name: sap.ui.layout
     - name: sap.ushell
     - name: themelib_sap_horizon
 
@@ -47,7 +49,7 @@ server:
 
         backend:
           - path: /sap
-            url: https://bb8534dd-13b7-4042-bba9-41728e5288ac.abap-web.us10.hana.ondemand.com
+            url: https://bb8534dd-13b7-4042-bba9-41728e5288ac.abap.us10.hana.ondemand.com
             authenticationType: reentranceTicket
 
 builder:

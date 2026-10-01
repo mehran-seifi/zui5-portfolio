@@ -9,7 +9,7 @@ export default class MainPage extends Opa5 {
 	// Assertions
 	iShouldSeeThePageView() {
 		return this.waitFor({
-			id: "page",
+			id: "portfolioPage",
 			viewName: sViewName,
 			success: function () {
 				Opa5.assert.ok(true, "The " + sViewName + " view is displayed");

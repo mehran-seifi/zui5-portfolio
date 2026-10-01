@@ -22,7 +22,8 @@ server:
 
         backend:
           - path: /sap
-            url: https://bb8534dd-13b7-4042-bba9-41728e5288ac.abap-web.us10.hana.ondemand.com
+            url: https://bb8534dd-13b7-4042-bba9-41728e5288ac.abap.us10.hana.ondemand.com
+            authenticationType: reentranceTicket
 
     - name: fiori-tools-appreload
       afterMiddleware: compression
