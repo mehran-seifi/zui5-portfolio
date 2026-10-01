@@ -1,0 +1,23 @@
+{
+  "generationParameters": {
+    "generationDate": "Thu Oct 01 2026 11:14:35 GMT+0200 (Central European Summer Time)",
+    "generatorPlatform": "Visual Studio Code",
+    "serviceType": "None",
+    "metadataFilename": "",
+    "serviceUrl": "N/A",
+    "appName": "zui5-portfolio",
+    "appTitle": "SAPUI5 Portfolio App",
+    "appDescription": "SAPUI5 Freestyle application with ABAP Cloud and RAP integration",
+    "appNamespace": "com.mehran.portfolio",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.153.0",
+    "enableEslint": true,
+    "enableTypeScript": true,
+    "showMockDataInfo": false,
+    "generatorVersion": "1.33.0",
+    "template": "Basic",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [],
+    "launchText": "To launch the generated application, run the following from the generated application root folder:\n\n```\n    npm start\n```"
+  }
+}
