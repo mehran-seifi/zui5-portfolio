@@ -16,7 +16,7 @@ Opa5.extendConfig({
 
 opaTest("Should see the initial page of the app", function () {
 	// Arrangements
-	// eslint-disable-next-line @typescript-eslint/no-floating-promises
+	 
 	onTheAppPage.iStartMyUIComponent({
 		componentConfig: {
 			name: "com.mehran.portfolio.zui5portfolio"
@@ -29,6 +29,6 @@ opaTest("Should see the initial page of the app", function () {
 
 
 	// Cleanup
-	// eslint-disable-next-line @typescript-eslint/no-floating-promises
+	 
 	onTheAppPage.iTeardownMyApp();
 });

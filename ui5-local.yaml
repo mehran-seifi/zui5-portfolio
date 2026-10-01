@@ -1,9 +1,12 @@
 # yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
 
 specVersion: "4.0"
+
 metadata:
   name: com.mehran.portfolio.zui5portfolio
+
 type: application
+
 framework:
   name: SAPUI5
   version: 1.153.0
@@ -12,6 +15,7 @@ framework:
     - name: sap.ui.core
     - name: sap.ushell
     - name: themelib_sap_horizon
+
 server:
   customMiddleware:
     - name: fiori-tools-appreload
@@ -20,6 +24,7 @@ server:
         port: 35729
         path: webapp
         delay: 300
+
     - name: ui5-tooling-transpile-middleware
       afterMiddleware: compression
       configuration:
@@ -28,20 +33,29 @@ server:
           overridesToOverride: true
         excludePatterns:
           - /Component-preload.js
+
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:
         flp:
           theme: sap_horizon
+
     - name: fiori-tools-proxy
       afterMiddleware: compression
       configuration:
-        ignoreCertErrors: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+        ignoreCertErrors: false
+
+        backend:
+          - path: /sap
+            url: https://bb8534dd-13b7-4042-bba9-41728e5288ac.abap-web.us10.hana.ondemand.com
+            authenticationType: reentranceTicket
+
 builder:
   resources:
     excludes:
       - /test/**
       - /localService/**
+
   customTasks:
     - name: ui5-tooling-transpile-task
       afterTask: replaceVersion

@@ -9,6 +9,15 @@
     },
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
+    "dataSources": {
+      "ordersService": {
+        "uri": "/sap/opu/odata4/sap/zui5_sb_order/srvd/sap/zui5_sd_order/0001/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    },
     "resources": "resources.json",
     "sourceTemplate": {
       "id": "@sap/generator-fiori:basic",
@@ -51,6 +60,16 @@
         "settings": {
           "bundleName": "com.mehran.portfolio.zui5portfolio.i18n.i18n"
         }
+      },
+      "orders": {
+        "dataSource": "ordersService",
+        "preload": true,
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
       }
     },
     "resources": {
@@ -76,15 +95,22 @@
         {
           "name": "RouteMain",
           "pattern": ":?query:",
-          "target": [
-            "TargetMain"
-          ]
+          "target": ["TargetMain"]
+        },
+        {
+          "name": "RouteOrderDetails",
+          "pattern": "orders/{orderId}",
+          "target": ["TargetOrderDetails"]
         }
       ],
       "targets": {
         "TargetMain": {
           "id": "Main",
           "name": "Main"
+        },
+        "TargetOrderDetails": {
+          "id": "OrderDetails",
+          "name": "OrderDetails"
         }
       }
     },

@@ -1,0 +1,81 @@
+<mvc:View
+    controllerName="com.mehran.portfolio.zui5portfolio.controller.OrderDetails"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form">
+
+    <Page
+        id="orderDetailsPage"
+        title="Order Details"
+        showNavButton="true"
+        navButtonPress=".onNavBack">
+
+        <content>
+            <VBox
+                class="sapUiContentPadding"
+                width="100%">
+
+                <ObjectHeader
+                    title="{orderId}"
+                    intro="{customer}"
+                    number="{amount}"
+                    numberUnit="{currency}">
+
+                    <statuses>
+                        <ObjectStatus
+                            text="{status}"
+                            state="{statusState}" />
+                    </statuses>
+                </ObjectHeader>
+
+                <Panel
+                    headerText="Order Information"
+                    class="sapUiResponsiveMargin"
+                    width="auto">
+
+                    <f:SimpleForm
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                        labelSpanXL="3"
+                        labelSpanL="3"
+                        labelSpanM="4"
+                        labelSpanS="12"
+                        adjustLabelSpan="false"
+                        emptySpanXL="4"
+                        emptySpanL="4"
+                        emptySpanM="0"
+                        emptySpanS="0"
+                        columnsXL="1"
+                        columnsL="1"
+                        columnsM="1"
+                        singleContainerFullSize="false">
+
+                        <Label text="Order ID" />
+                        <Text text="{orderId}" />
+
+                        <Label text="Customer" />
+                        <Text text="{customer}" />
+
+                        <Label text="Status" />
+                        <ObjectStatus
+                            text="{status}"
+                            state="{statusState}" />
+
+                        <Label text="Amount" />
+                        <ObjectNumber
+                            number="{amount}"
+                            unit="{currency}" />
+
+                    </f:SimpleForm>
+                </Panel>
+
+                <MessageStrip
+                    text="This order currently uses mock data. We will connect it to the SAP RAP backend later."
+                    type="Information"
+                    showIcon="true"
+                    class="sapUiMediumMarginTop" />
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

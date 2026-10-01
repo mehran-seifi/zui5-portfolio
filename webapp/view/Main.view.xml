@@ -1,6 +1,253 @@
-<mvc:View controllerName="com.mehran.portfolio.zui5portfolio.controller.Main"
+<mvc:View
+    controllerName="com.mehran.portfolio.zui5portfolio.controller.Main"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
-    </Page>
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+
+    <f:DynamicPage
+        id="portfolioPage"
+        headerExpanded="true"
+        toggleHeaderOnTitleClick="false">
+
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title
+                        text="Portfolio Dashboard"
+                        level="H1" />
+                </f:heading>
+
+                <f:expandedContent>
+                    <Text text="SAPUI5 · SAP Fiori · ABAP Cloud" />
+                </f:expandedContent>
+
+                <f:actions>
+                    <Button
+                        text="Refresh"
+                        icon="sap-icon://refresh"
+                        type="Transparent"
+                        press=".onRefresh" />
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+
+        <f:header>
+            <f:DynamicPageHeader>
+                <VBox>
+                    <Title
+                        text="Welcome to the Portfolio"
+                        level="H2" />
+
+                    <Text
+                        text="A modern SAPUI5 application designed for enterprise workflows." />
+                </VBox>
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
+            <VBox
+                class="sapUiContentPadding"
+                width="100%">
+
+                <Title
+                    text="Overview"
+                    level="H2"
+                    class="sapUiSmallMarginBottom" />
+
+                <HBox
+                    wrap="Wrap"
+                    width="100%"
+                    class="sapUiSmallMarginBottom">
+
+                    <VBox
+                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        width="15rem">
+
+                        <GenericTile
+                            header="Total Orders"
+                            subheader="All orders">
+
+                            <TileContent>
+                                <NumericContent
+                                    value="{dashboard>/totalOrders}"
+                                    icon="sap-icon://sales-order"
+                                    withMargin="false" />
+                            </TileContent>
+                        </GenericTile>
+                    </VBox>
+
+                    <VBox
+                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        width="15rem">
+
+                        <GenericTile
+                            header="Open Orders"
+                            subheader="Awaiting completion">
+
+                            <TileContent>
+                                <NumericContent
+                                    value="{dashboard>/openOrders}"
+                                    icon="sap-icon://pending"
+                                    withMargin="false" />
+                            </TileContent>
+                        </GenericTile>
+                    </VBox>
+
+                    <VBox
+                        class="sapUiSmallMarginBottom"
+                        width="15rem">
+
+                        <GenericTile
+                            header="Completed Orders"
+                            subheader="Successfully completed">
+
+                            <TileContent>
+                                <NumericContent
+                                    value="{dashboard>/completedOrders}"
+                                    icon="sap-icon://accept"
+                                    withMargin="false" />
+                            </TileContent>
+                        </GenericTile>
+                    </VBox>
+                </HBox>
+
+                <Title
+                    text="Recent Orders"
+                    level="H2"
+                    class="sapUiSmallMarginBottom" />
+
+                <Table
+                    id="ordersTable"
+                    items="{orders>/items}"
+                    growing="true"
+                    growingThreshold="10"
+                    noDataText="No orders available">
+
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title
+                                text="Orders"
+                                level="H3" />
+
+                            <ToolbarSpacer />
+
+                            <Select
+                                id="ordersStatusFilter"
+                                width="11rem"
+                                selectedKey="All"
+                                change=".onStatusFilterChange">
+
+                                <core:Item
+                                    key="All"
+                                    text="All Statuses" />
+
+                                <core:Item
+                                    key="Open"
+                                    text="Open" />
+
+                                <core:Item
+                                    key="In Progress"
+                                    text="In Progress" />
+
+                                <core:Item
+                                    key="Completed"
+                                    text="Completed" />
+                            </Select>
+
+                            <Select
+                                id="ordersSortField"
+                                width="11rem"
+                                selectedKey="orderId"
+                                change=".onSortChange">
+
+                                <core:Item
+                                    key="orderId"
+                                    text="Order ID" />
+
+                                <core:Item
+                                    key="customer"
+                                    text="Customer" />
+
+                                <core:Item
+                                    key="amount"
+                                    text="Amount" />
+                            </Select>
+
+                            <Select
+                                id="ordersSortDirection"
+                                width="8rem"
+                                selectedKey="asc"
+                                change=".onSortChange">
+
+                                <core:Item
+                                    key="asc"
+                                    text="Ascending" />
+
+                                <core:Item
+                                    key="desc"
+                                    text="Descending" />
+                            </Select>
+
+                            <SearchField
+                                id="ordersSearchField"
+                                width="15rem"
+                                placeholder="Search orders"
+                                liveChange=".onSearch" />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <columns>
+                        <Column>
+                            <Text text="Order ID" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Customer" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Status" />
+                        </Column>
+
+                        <Column hAlign="End">
+                            <Text text="Amount" />
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem
+    type="Navigation"
+    press=".onOrderPress">
+                            <cells>
+                                <ObjectIdentifier
+                                    title="{orders>orderId}" />
+
+                                <Text
+                                    text="{orders>customer}" />
+
+                                <ObjectStatus
+                                    text="{orders>status}"
+                                    state="{orders>statusState}" />
+
+                                <ObjectNumber
+                                    number="{
+                                        parts: [
+                                            { path: 'orders>amount' },
+                                            { path: 'orders>currency' }
+                                        ],
+                                        type: 'sap.ui.model.type.Currency',
+                                        formatOptions: {
+                                            showMeasure: false
+                                        }
+                                    }"
+                                    unit="{orders>currency}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
 </mvc:View>
